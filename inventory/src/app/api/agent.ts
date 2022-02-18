@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import { SERVER_URL } from "../common/constants";
+import { API_URL } from "../common/constants";
 
-axios.defaults.baseURL = SERVER_URL;
+axios.defaults.baseURL = API_URL;
 
 const responseBody = (response: AxiosResponse) => response.data;
 

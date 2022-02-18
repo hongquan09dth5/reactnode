@@ -9,13 +9,12 @@ const bodyParser = require("body-parser");
 
 const productRoutes = require("./api/routes/product.route");
 const uploaderRoutes = require("./api/routes/uploader.route");
+const routes = require("./api/routes/index");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use("/product", productRoutes);
-app.use("/upload", uploaderRoutes);
+app.use("/api", routes);
 app.use("/server/assets", express.static("server/assets"));
 
 if (process.env.NODE_ENV === "production") {
