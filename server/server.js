@@ -18,12 +18,12 @@ app.use("/product", productRoutes);
 app.use("/upload", uploaderRoutes);
 app.use("/server/assets", express.static("server/assets"));
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join("inventory/build")));
-//   app.get("*", (req, res) =>
-//     res.sendfile(path.resolve(__dirname, "inventory", "build", "index.html"))
-//   );
-// }
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join("inventory/build")));
+  app.get("*", (req, res) =>
+    res.sendfile(path.resolve(__dirname, "inventory", "build", "index.html"))
+  );
+}
 
 const port = process.env.PORT || 5000;
 
