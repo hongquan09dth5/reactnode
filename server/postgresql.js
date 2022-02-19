@@ -1,11 +1,14 @@
-const Pool = require('pg').Pool;
+const Pool = require("pg").Pool;
+let ssl = null;
+if (process.env.NODE_ENV !== "production") {
+  ssl = { rejectUnauthorized: false };
+}
+
+const connectionString = process.env.POSTGRESQL_URL;
 
 const pool = new Pool({
-    user:'postgres',
-    host:'localhost',
-    database:'shopping',
-    password: '0918506237',
-    port:5432
-})
+  connectionString,
+  ssl: ssl,
+});
 
 module.exports = pool;

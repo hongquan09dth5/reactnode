@@ -36,7 +36,7 @@ const Products = {
 
 const Uploader = {
   upload: async (req: any): Promise<any> => {
-    return await requests.post(`/upload/upload`, req);
+    return await requests.post(`/upload`, req);
   },
 }
 

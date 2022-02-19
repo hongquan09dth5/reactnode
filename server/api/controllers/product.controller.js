@@ -1,25 +1,29 @@
 const pool = require("./../../postgresql");
 
 const getProducts = async (req, res, next) => {
-  await pool.query("SELECT * FROM product", (error, results) => {
-    if (error) {
-      res.status(500).json(error);
-    }
-    res.status(200).json(results.rows);
-  });
+  try {
+    await pool.query("SELECT * FROM product").then((results) => {
+      console.log(results);
+      res.status(200).json(results.rows != null ? results.rows : null);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
 };
 
 const getProduct = async (req, res, next) => {
   const id = req.params.id;
-  await pool.query(
-    "SELECT * FROM product WHERE ID =" + id,
-    (error, results) => {
-      if (error) {
-        res.status(500).json(error);
-      }
-      res.status(200).json(results.rows[0]);
-    }
-  );
+  try {
+    await pool
+      .query("SELECT * FROM product WHERE ID =" + id)
+      .then((results) => {
+        res.status(200).json(results.rows[0]);
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
 };
 
 const updateProduct = async (req, res, next) => {
@@ -52,29 +56,28 @@ const updateProduct = async (req, res, next) => {
     imageurl,
   } = req.body;
 
-  await pool.query(
-    query,
-    [
-      id,
-      name,
-      description,
-      flex,
-      frame,
-      weight,
-      stringing,
-      colors,
-      itemcode,
-      origin,
-      price,
-      imageurl,
-    ],
-    (error, results) => {
-      if (error) {
-        res.status(500).json(error);
-      }
-      res.status(200).json();
-    }
-  );
+  try {
+    await pool
+      .query(query, [
+        id,
+        name,
+        description,
+        flex,
+        frame,
+        weight,
+        stringing,
+        colors,
+        itemcode,
+        origin,
+        price,
+        imageurl,
+      ])
+      .then((results) => {
+        res.status(200).json();
+      });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 const createProduct = async (req, res, next) => {
@@ -94,41 +97,43 @@ const createProduct = async (req, res, next) => {
     price,
     imageurl,
   } = req.body;
-
-  await pool.query(
-    query,
-    [
-      name,
-      imageurl,
-      price,
-      description,
-      flex,
-      frame,
-      weight,
-      stringing,
-      colors,
-      itemcode,
-      origin,
-      1,
-      1,
-    ],
-    (error, results) => {
-      if (error) {
-        res.status(500).json(error);
-      }
-      res.status(200).json();
-    }
-  );
+  try {
+    await pool
+      .query(query, [
+        name,
+        imageurl,
+        price,
+        description,
+        flex,
+        frame,
+        weight,
+        stringing,
+        colors,
+        itemcode,
+        origin,
+        1,
+        1,
+      ])
+      .then((results) => {
+        res.status(200).json();
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
 };
 
-const deleteProduct = (req, res, next) => {
+const deleteProduct = async (req, res, next) => {
   const id = req.params.id;
-  pool.query("DELETE FROM product WHERE ID =" + id, (error, results) => {
-    if (error) {
-      res.status(500).json(error);
-    }
-    res.status(200).json();
-  });
+
+  try {
+    await pool.query("DELETE FROM product WHERE ID =" + id).then((results) => {
+      res.status(200).json();
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
 };
 
 module.exports = {

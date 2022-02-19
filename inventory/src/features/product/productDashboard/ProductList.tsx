@@ -2,7 +2,7 @@ import React from "react";
 import { Space, Table, Modal, Image, Typography, notification } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../../app/hook/hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/hook/hooks";
 import { deleteProductAsync, fetchProductsAsync } from "../productActions";
 import NumberFormat from "react-number-format";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -18,6 +18,7 @@ interface IProps {
 
 const ProductList: React.FC<IProps> = ({ products }) => {
   const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.async);
   const columns: ColumnsType<IProductListItem> = [
     {
       title: "Name",
@@ -114,6 +115,7 @@ const ProductList: React.FC<IProps> = ({ products }) => {
     <>
       <ProductListToolbar />
       <Table
+        loading={loading}
         dataSource={products}
         columns={columns}
         rowKey="id"

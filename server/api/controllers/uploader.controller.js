@@ -2,7 +2,7 @@ const multer = require("multer");
 const { singleUpload } = require("./../../utils/uploader");
 
 const uploadImage = async (req, res, next) => {
-  singleUpload(req, res, function (err) {
+  await singleUpload(req, res, function (err) {
     if (err instanceof multer.MulterError) {
       return res.status(500).json(err);
     } else if (err) {
